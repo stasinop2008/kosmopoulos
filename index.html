@@ -69,13 +69,32 @@
                     </a>
                 </nav>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" type="button" aria-label="Άνοιγμα μενού" class="md:hidden p-2.5 rounded-xl text-royal-900 hover:bg-royal-50 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                        <path id="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-                        <path id="menu-icon-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
+                
+<!-- Mobile Menu Button -->
+<button id="mobile-menu-btn"
+        type="button"
+        onclick="toggleMobileMenu()"
+        aria-label="Άνοιγμα μενού"
+        aria-expanded="false"
+        class="md:hidden p-2.5 rounded-xl text-royal-900 hover:bg-royal-50 transition-colors">
+
+    <svg class="w-6 h-6" fill="none"
+         stroke="currentColor" stroke-width="2.2"
+         viewBox="0 0 24 24">
+
+        <path id="menu-icon-open"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"/>
+
+        <path id="menu-icon-close"
+              class="hidden"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+</button>
+
             </div>
         </div>
 
@@ -1109,6 +1128,46 @@
                 document.body.classList.remove('overflow-hidden');
             }
         };
+
+// MOBILE MENU FUNCTIONS
+
+window.toggleMobileMenu = function() {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.getElementById('mobile-menu-btn');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+
+    if (!menu || !btn) return;
+
+    const isOpen = menu.classList.toggle('hidden');
+
+    btn.setAttribute('aria-expanded', !isOpen);
+
+    if (openIcon) openIcon.classList.toggle('hidden', !isOpen);
+    if (closeIcon) closeIcon.classList.toggle('hidden', isOpen);
+};
+
+window.closeMobileMenu = function() {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.getElementById('mobile-menu-btn');
+
+    if (!menu || !btn) return;
+
+    menu.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+
+    document.getElementById('menu-icon-open')?.classList.remove('hidden');
+    document.getElementById('menu-icon-close')?.classList.add('hidden');
+};
+
+// Κλείσιμο όταν επιλέγεται κάποια επιλογή
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', function() {
+            window.closeMobileMenu();
+        });
+    });
+});
 
         document.addEventListener('DOMContentLoaded', () => {
 // ... existing code ... -->
